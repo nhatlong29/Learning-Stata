@@ -1,0 +1,83 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\stata\bai1.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 1 Jan 2000, 00:45:17
+{txt}
+{com}. 
+. use "cigsales.dta"
+{txt}
+{com}. 
+. describe
+
+{txt}Contains data from {res}cigsales.dta
+{txt}  obs:{res}         1,209                          
+{txt} vars:{res}             7                          3 May 2018 17:24
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:state          }{txt}{bind: long    }{bind:{txt}%18.0g    }{space 1}{bind:newstate }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:year           }{txt}{bind: int     }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Year{p_end}
+{p 0 48}{bind:cigsale        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Cigarette sales per-capita (in packs){p_end}
+{p 0 48}{bind:lnincome       }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:beer           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age15to24      }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:retprice       }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: {res}state  year
+{txt}
+{com}. 
+. 
+. tsset state year
+{res}{txt}{col 8}panel variable:  {res}state (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}year, 1970 to 2000
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. 
+. // http://www.haghish.com/statistics/stata-blog/stata-programming/download/itsa.html
+. 
+. 
+. itsa cigsale, single treat(3) trperiod(1989) lag(1) posttrend figure
+
+
+{res}{txt}{col 8}panel variable:  {res}state (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}year, 1970 to 2000
+{txt}{col 17}delta:  {res}1 unit
+
+{txt}Regression with Newey-West standard errors{col 49}Number of obs{col 67}= {res}        31
+{txt}maximum lag: {res}1{col 49}{txt}F(  3,        27){col 67}= {res}    331.45
+{col 49}{txt}Prob > F{col 67}= {res}    0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Newey-West
+{col 1}    _cigsale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}_t {c |}{col 14}{res}{space 2}-1.779474{col 26}{space 2} .3834188{col 37}{space 1}   -4.64{col 46}{space 3}0.000{col 54}{space 4}-2.566184{col 67}{space 3}-.9927632
+{txt}{space 6}_x1989 {c |}{col 14}{res}{space 2} -20.0581{col 26}{space 2} 4.724395{col 37}{space 1}   -4.25{col 46}{space 3}0.000{col 54}{space 4}-29.75175{col 67}{space 3}-10.36444
+{txt}{space 4}_x_t1989 {c |}{col 14}{res}{space 2}-1.494652{col 26}{space 2} .4368201{col 37}{space 1}   -3.42{col 46}{space 3}0.002{col 54}{space 4}-2.390933{col 67}{space 3}-.5983715
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 132.2258{col 26}{space 2} 4.253054{col 37}{space 1}   31.09{col 46}{space 3}0.000{col 54}{space 4} 123.4992{col 67}{space 3} 140.9523
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+
+{col 20} Postintervention Linear Trend: 1989
+
+Treated: _b[_t]+_b[_x_t1989]
+{hline 13}{c TT}{hline 64}
+Linear Trend {c |}{col 21}Coef. {col 29}Std. Err.{col 44}t{col 49}{col 59}[95% Conf. Interval]
+{hline 13}{c +}{hline 64}
+{col 1}     Treated{col 14}{c |}{res}{col 17}-3.274126{col 28} .2688039{col 38}  -12.18{col 46}   0.000{col 58}-3.825666{col 70}-2.722586
+{txt}{hline 13}{c BT}{hline 64}
+{res}{txt}
+{com}. 
+. //close log
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\stata\bai1.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 1 Jan 2000, 00:45:18
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
